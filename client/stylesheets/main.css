@@ -1,0 +1,12 @@
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+.logo .brandname:hover,
+.post-content .title:hover {
+	cursor: pointer;
+}
