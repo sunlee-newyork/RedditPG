@@ -4,7 +4,11 @@
 	},
 	"private": {
 		"admin": {
-			"id": "dkoGrRA5DP5WjXbRw"
+			"email": "admin@admin.com",
+			"password": "password",
+			"profile": {
+				"name": "admin"
+			}
 		}
 	}
 }
