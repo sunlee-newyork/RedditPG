@@ -58,7 +58,11 @@ class Register extends React.Component {
                 console.error("Meteor.createUser() failed.");
                 self.handleAlertOpen();
             } else {
-                Roles.addUsersToRoles(Meteor.userId(), ['poster'], Roles.GLOBAL_GROUP);
+                Meteor.call('users.registerRole', user.email, (err) => {
+                    if (err) {
+                        console.error('Error occcurred while trying to register user role: ', err);
+                    }
+                });
             }
         });
     }
