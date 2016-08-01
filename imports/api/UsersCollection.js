@@ -16,6 +16,8 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 	'users.get'(name) {
+		check(name, String);
+
 		if (Roles.userIsInRole(this.userId, ['admin'], Roles.GLOBAL_GROUP)) {
 			return Meteor.users().findOne({"profile.name": name});
 		} else {
@@ -25,11 +27,7 @@ Meteor.methods({
 
 	'users.create'(options) {
 		if (Roles.userIsInRole(this.userId, ['admin'], Roles.GLOBAL_GROUP)) {
-			const newUser = {
-				email: options.user.email
-			}
-
-			var newUserId = Accounts.createUser(options.user);
+			const newUserId = Accounts.createUser(options.user);
 			Roles.addUsersToRoles(newUserId, [options.roles], Roles.GLOBAL_GROUP);
 		} else {
 			return new Meteor.Error(errorCodes.NOT_AUTHORIZED, 'User is not authorized to create new users.');
@@ -42,6 +40,13 @@ Meteor.methods({
 		if (!Roles.userIsInRole(this.userId, ['admin'], Roles.GLOBAL_GROUP)) {
 			return new Meteor.Error(errorCodes.NOT_AUTHORIZED, 'User is not authorized to delete users.');
 		}
+	},
+
+	'users.registerRole'(email) {
+		check(email, String);
+
+		const user = Accounts.findUserByEmail(email);
+		Roles.addUsersToRoles(user._id, ['poster'], Roles.GLOBAL_GROUP);
 	},
 
 	'users.updateRoles'(options) {
