@@ -5,7 +5,7 @@ import { Accounts } from 'meteor/accounts-base';
 if (Meteor.isServer) {
 	const {admin} = Meteor.settings.private;
 
-	if (Roles.getUsersInRole(['admin'], Roles.GLOBAL_GROUP).fetch({}).length === 0) {
+	if (!Accounts.findUserByEmail(admin.email)) {
 		var userId = Accounts.createUser({
 			email: admin.email,
 			password: admin.password,
