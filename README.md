@@ -21,6 +21,7 @@ meteor --settings=settings-development.json
 
 ## Accounts
 There are 3 types of roles in RedditPG:
+
 1. Admin
 2. Mod
 3. Poster
