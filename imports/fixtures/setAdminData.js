@@ -1,18 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
+import { Accounts } from 'meteor/accounts-base';
 
 if (Meteor.isServer) {
-	const roles = Roles.getAllRoles().fetch();
-	let adminExists = false;
+	const {admin} = Meteor.settings.private;
+	console.log("Roles.getUsersInRole(): ", );
 
-	roles.forEach((role) => {
-		if (role.name == 'admin') {
-			adminExists = true;
-		}
-	});
+	if (Roles.getUsersInRole(['admin'], Roles.GLOBAL_GROUP).fetch({}).length === 0) {
+		var userId = Accounts.createUser({
+			email: admin.email,
+			password: admin.password,
+			profile: admin.profile
+		});
 
-	if (!adminExists) {
-		const adminId = Meteor.settings.private.admin.id;
-		Roles.addUsersToRoles(adminId, 'admin', Roles.GLOBAL_GROUP);
+		Roles.addUsersToRoles(userId, ['admin'], Roles.GLOBAL_GROUP);
 	}
 }
