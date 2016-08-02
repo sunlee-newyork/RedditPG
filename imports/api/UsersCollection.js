@@ -40,6 +40,8 @@ Meteor.methods({
 		if (!Roles.userIsInRole(this.userId, ['admin'], Roles.GLOBAL_GROUP)) {
 			return new Meteor.Error(errorCodes.NOT_AUTHORIZED, 'User is not authorized to delete users.');
 		}
+
+		Meteor.users.remove({_id: userId});
 	},
 
 	'users.registerRole'(email) {
